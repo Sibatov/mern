@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import axios from 'axios';
 
 class Test extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -38,22 +39,9 @@ class Test extends Component {
                 }));
             });
     };
-
     handleOnChange = e => {
         this.setState({task: e.target.value});
     };
-
-    componentDidMount() {
-        axios.get('http://localhost:4000/tasks/')
-            .then(response => {
-                this.setState({tasks: response.data});
-            })
-            .catch(error => {
-                console.log(error);
-            })
-    }
-
-
     handleRemoveTask = async key => {
         let items = this.state.tasks;
         const new_item = items.filter((obj, i) => {
@@ -68,7 +56,6 @@ class Test extends Component {
                 });
             });
     };
-
     handleDoneTask = key => {
         let item = this.state.tasks;
         console.log(item);
@@ -83,7 +70,6 @@ class Test extends Component {
                 })
         })
     };
-
     handleEditTask = async (key) => {
         let item = this.state.tasks;
         let new_item = item.filter((obj, i) => {
@@ -129,8 +115,19 @@ class Test extends Component {
     };
 
 
+
+    componentDidMount() {
+        axios.get('http://localhost:4000/tasks/')
+            .then(response => {
+                this.setState({tasks: response.data});
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
+
     render() {
-        const { tasks } = this.state;
+        const {tasks} = this.state;
         return (
             <>
                 <h1>Hello world!</h1>
@@ -153,17 +150,17 @@ class Test extends Component {
                     <ul>
                         {
                             tasks.length > 0
-                            ? tasks.map((item, key) => (
-                            <li key={key} className={'items'}>
-                                <p className={item.checked ? 'newClass' : ''}>{item.name}</p>
-                                <div className={'task_buttons'}>
-                                    <button onClick={this.handleRemoveTask.bind(this, key)}>Delete</button>
-                                    <button onClick={this.handleDoneTask.bind(this, key)}>Checked</button>
-                                    <button onClick={this.handleEditTask.bind(this, key)}>Edit</button>
-                                </div>
-                            </li>
-                            ))
-                            : ''
+                                ? tasks.map((item, key) => (
+                                    <li key={key} className={'items'}>
+                                        <p className={item.checked ? 'newClass' : ''}>{item.name}</p>
+                                        <div className={'task_buttons'}>
+                                            <button onClick={this.handleRemoveTask.bind(this, key)}>Delete</button>
+                                            <button onClick={this.handleDoneTask.bind(this, key)}>Checked</button>
+                                            <button onClick={this.handleEditTask.bind(this, key)}>Edit</button>
+                                        </div>
+                                    </li>
+                                ))
+                                : ''
                         }
                     </ul>
                 </div>
